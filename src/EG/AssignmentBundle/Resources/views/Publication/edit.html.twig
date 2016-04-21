@@ -1,0 +1,22 @@
+{# src/EG/AssignmentBundle/Resources/views/Advert/edit.html.twig #}
+
+{% extends "EGAssignmentBundle:Publication:layout.html.twig" %}
+
+{% block title %}
+    Edit publication
+{% endblock %}
+
+{% block egassignment_body %}
+
+    <h2>Edit publication</h2>
+
+    {{ include("EGAssignmentBundle:Publication:form.html.twig") }}
+
+    <p>
+        <a href="{{ path('eg_publication_view', {'id': publication.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Back to the publication
+        </a>
+    </p>
+
+{% endblock %}

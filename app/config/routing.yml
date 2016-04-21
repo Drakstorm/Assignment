@@ -1,0 +1,7 @@
+eg_assignment:
+    resource: "@EGAssignmentBundle/Resources/config/routing.yml"
+    prefix:   /assignment
+
+fos_user:
+     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+     prefix: /assignment

@@ -1,0 +1,38 @@
+{# src/EG/AssignmentBundle/Resources/views/Advert/index.html.twig #}
+
+{% extends "EGAssignmentBundle:Assignment:layout.html.twig" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block egassignment_body %}
+
+    <h3 style="margin-bottom: 2%">New project</h3>
+    {% if projects is empty %}
+        <h4>No project yet</h4>
+    {% else %}
+        <ul>
+            {% for project in projects %}
+
+                <li><a href="{{ path('eg_project_view', {'id': project.id})}}"><h4>{{ project.name }}</h4></a></li>
+
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <br/>
+    <h3 style="margin-bottom: 2%">New publication</h3>
+    {% if publications is empty %}
+        <h4>No publication yet</h4>
+    {% else %}
+        <ul>
+            {% for publication in publications %}
+
+                <li><a href="{{ path('eg_publication_view', {'id': publication.id})}}"><h4>Project : {{ publication.project.name }} - By {{ publication.author }} - {{ publication.date|date }}</h4></a></li>
+
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+{% endblock %}

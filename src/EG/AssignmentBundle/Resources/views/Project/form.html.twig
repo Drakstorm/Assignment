@@ -1,0 +1,50 @@
+<div class="well">
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {{ form_errors(form) }}
+
+    <div class="form-group">
+        {{ form_label(form.name, "", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.name) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.description, "Description", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.description) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.members, "Member", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.members) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.members, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    {% if form.imgFile is defined %}
+
+    <div class="form-group">
+        {{ form_label(form.imgFile, "Image", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.imgFile) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.imgFile, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    {% endif %}
+
+
+    {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
+    {{ form_rest(form) }}
+
+    {{ form_end(form) }}
+</div>
+
+<script src="{{ asset("/js/addUser.js") }}"></script>

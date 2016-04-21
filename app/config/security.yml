@@ -1,0 +1,40 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       ['ROLE_STUDENT', 'ROLE_MEMBER']
+        ROLE_SUPER_ADMIN: ['ROLE_ADMIN']
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                always_use_default_target_path: false
+                default_target_path: /assignment
+                use_referer: false
+                # if you are using Symfony < 2.8, use the following config instead:
+                # csrf_provider: form.csrf_provider
+            logout:
+                path: fos_user_security_logout
+                target: /assignment
+            anonymous:    true
+
+    access_control:
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/member/add$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/project/add$, roles: ['ROLE_ADMIN', 'ROLE_MEMBER']}
+        - { path: ^/project/edit, roles: ['ROLE_ADMIN', 'ROLE_MEMBER']}
+        - { path: ^/pubication/add$, roles: ['ROLE_ADMIN', 'ROLE_MEMBER']}
+        - { path: ^/pubication/edit$, roles: ['ROLE_ADMIN', 'ROLE_MEMBER']}
+        - { path: ^/member/edit$, roles: ['ROLE_ADMIN', 'ROLE_MEMBER','ROLE_STUDENT']}

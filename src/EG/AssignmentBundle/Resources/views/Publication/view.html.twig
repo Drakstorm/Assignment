@@ -1,0 +1,40 @@
+{# src/EG/AssignmentBundle/Resources/view/Advert/view.html.twig #}
+
+{% extends "EGAssignmentBundle:Project:layout.html.twig" %}
+
+{% block title %}
+    Publication Information
+{% endblock %}
+
+{% block egassignment_body %}
+
+    <h2>Publication for : <a href="{{ path('eg_project_view', {'id': publication.project.id}) }}">{{ publication.project.name }}</a></h2>
+
+    <div class="info" style="display: flex">
+
+        <div class="well" style="width:100%;">
+            {% if notFound is defined %}
+                File not found
+            {% endif %}
+            PDF : <a href="{{ path('eg_assignment_dlpdf', {'id': publication.id}) }}"> Download </a></br>
+            If the PDF is undownload find in this text file the way to find the publication : <a href="{{ path('eg_assignment_dlfile', {'id': publication.id}) }}"> click here </a></br></br>
+            Publication by <a href="{{ path('eg_member_view', {'id': publication.author.id}) }}">{{ publication.author.name }}</a></br>
+            Upload the {{ publication.date|date }}
+        </div>
+    </div>
+
+        <br/>
+        {% if is_granted('ROLE_MEMBER') %}
+            <p>
+                <a href="{{ path('eg_publication_edit', {'id': publication.id}) }}" class="btn btn-default">
+                    <i class="glyphicon glyphicon-edit"></i>
+                    Edit the publication
+                </a>
+                <a href="{{ path('eg_publication_delete', {'id': publication.id}) }}" class="btn btn-danger">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    Delete the publication
+                </a>
+            </p>
+        {% endif %}
+
+{% endblock %}

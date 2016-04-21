@@ -1,0 +1,46 @@
+{# src/EG/AssignmentBundle/Resources/view/Advert/view.html.twig #}
+
+{% extends "EGAssignmentBundle:Project:layout.html.twig" %}
+
+{% block title %}
+    Project List
+{% endblock %}
+
+{% block egassignment_body %}
+
+    {% if projects is empty %}
+
+        <h2>No project found</h2>
+
+    {% else %}
+
+        {% for project in projects %}
+
+            <div class="info" style="display: flex">
+                <a href="{{ path('eg_project_view', {'id': project.id}) }}" style="margin-right: 3%"><img src="/uploads/projectImg/{{ project.id }}/{{ project.imageUrl }}" width="128px" height="128px"/></a>
+                <a href="{{ path('eg_project_view', {'id': project.id}) }}"><h2>{{ project.name }}</h2></a>
+            </div>
+
+        </br>
+
+            {% if (is_granted('ROLE_ADMIN') or app.user == project.creator) and not project.past %}
+                <a href="{{ path('eg_project_edit', {'id': project.id}) }}" class="btn btn-default">
+                    <i class="glyphicon glyphicon-edit"></i>
+                    Edit the project
+                </a>
+                <a href="{{ path('eg_project_past', {'id': project.id}) }}" class="btn btn-danger">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    Past the project
+                </a>
+
+            {% endif %}
+
+        <hr>
+
+        {% endfor %}
+
+    {% endif %}
+
+    </p>
+
+{% endblock %}

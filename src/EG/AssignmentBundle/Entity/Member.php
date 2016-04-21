@@ -1,0 +1,328 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Emeric
+ * Date: 10/04/2016
+ * Time: 11:38
+ */
+
+namespace EG\AssignmentBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+/**
+ * Class member
+ *
+ * @ORM\Table(name="member")
+ * @ORM\Entity(repositoryClass="EG\AssignmentBundle\Repository\MemberRepository")
+ */
+class Member extends BaseUser
+{
+    /**
+     * ID unique for each Member
+     *
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * first name of the Member
+     *
+     * @var string
+     *
+     * @ORM\Column(name="firstName", type="string", length=255)
+     */
+    private $firstName;
+
+    /**
+     * last name of the member
+     *
+     * @var string
+     *
+     * @ORM\Column(name="lastName", type="string", length=255)
+     */
+    private $lastName;
+
+    /**
+     * to know if the member is a student
+     *
+     * @var boolean
+     *
+     * @ORM\Column(name="student", type="boolean")
+     */
+    private $student;
+
+    /**
+     * if the member is a student, choose his supervisor
+     *
+     * @var member
+     *
+     * @ORM\ManyToOne(targetEntity="EG\AssignmentBundle\Entity\Member")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $supervisor = null;
+
+    /**
+     * path of the photo's member (user.png by default)
+     *
+     * @var string
+     *
+     * @ORM\Column(name="imageUrl", type="string", length=255)
+     */
+    private $imageUrl = "../user.png";
+
+    /**
+     * photo's file of the member
+     *
+     * @var file
+     */
+    private $imgFile;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     *
+     * @return Member
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     *
+     * @return Member
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set student
+     *
+     * @param boolean $student
+     *
+     * @return Member
+     */
+    public function setStudent($student)
+    {
+        $this->student = $student;
+
+        return $this;
+    }
+
+    /**
+     * Get student
+     *
+     * @return boolean
+     */
+    public function getStudent()
+    {
+        return $this->student;
+    }
+
+    /**
+     * Set admin
+     *
+     * @param boolean $admin
+     *
+     * @return Member
+     */
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * Get admin
+     *
+     * @return boolean
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * Set imageUrl
+     *
+     * @param string $imageUrl
+     *
+     * @return string
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get imageUrl
+     *
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * Set supervisor
+     *
+     * @param \EG\AssignmentBundle\Entity\Member $supervisor
+     *
+     * @return Member
+     */
+    public function setSupervisor(\EG\AssignmentBundle\Entity\Member $supervisor = null)
+    {
+        $this->supervisor = $supervisor;
+
+        return $this;
+    }
+
+    /**
+     * Get supervisor
+     *
+     * @return \EG\AssignmentBundle\Entity\Member
+     */
+    public function getSupervisor()
+    {
+        return $this->supervisor;
+    }
+
+    /**
+     * Get imgFile
+     *
+     * @return file
+     */
+    public function getImgFile()
+    {
+        return $this->imgFile;
+    }
+
+    /**
+     * Set imgFile
+     *
+     * @param UploadedFile|null $file
+     */
+    public function setImgFile(UploadedFile $file = null)
+    {
+        $this->imgFile = $file;
+    }
+
+    /**
+     * Get name of the member with last name and first name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return strtoupper($this->lastName).' '.$this->firstName;
+    }
+
+    /**
+     * Upload the imgFile on the good directory
+     */
+    public function upload()
+    {
+        if (null === $this->imgFile) {
+            return;
+        }
+
+        $name = $this->imgFile->getClientOriginalName();
+        $this->imgFile->move($this->getUploadRootDir(), $name);
+        $this->imageUrl = $name;
+    }
+
+    /**
+     * Check if the directory to stock the image exist
+     * if it exist delete the directory to avoid to stock every images
+     * and create the directory
+     *
+     * @return string
+     */
+    public function getUploadDir()
+    {
+        $fs = new Filesystem();
+
+        if($fs->exists('uploads/userImg/'.$this->id)) {
+            $fs->remove(array('uploads/userImg/'.$this->id));
+        }
+
+        $fs->mkdir('uploads/userImg/'.$this->id, 0777);
+        return 'uploads/userImg/'.$this->id;
+
+    }
+
+    /**
+     * Return the good path of directory
+     *
+     * @return string
+     */
+    protected function getUploadRootDir()
+    {
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+    }
+
+    /**
+     * set Enabled value at $boolean
+     *
+     * @param bool $boolean
+     * @return $this|\FOS\UserBundle\Model\UserInterface
+     */
+    public function setEnabled($boolean = true)
+    {
+        return parent::setEnabled($boolean);
+    }
+
+}

@@ -1,0 +1,92 @@
+{# app/Resources/views/layout.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}EG Assignment{% endblock %}</title>
+
+        {% block stylesheets %}
+            {# On charge le CSS de bootstrap depuis le site directement #}
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="jumbotron">
+            <h1>The Graphics and Gaming Group</h1>
+
+        </div>
+
+        <div class="row">
+
+            <div id="menu" class="col-md-3">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{{ path('eg_assignment_home') }}"><img src="{{ asset('home.png') }}" width="60px" height="60px" style="margin-right: 15%; vertical-align: top">
+                        <h3 style="display: inline-block; vertical-align: top" >HOME</h3></a></li>
+                </ul>
+
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <h3>{{ app.user.username }}</h3>
+                <ul class="nav nav-pills nav-stacked">
+                        <li><a href="{{ path('eg_member_view',{'id': app.user.id}) }}">Profil</a></li>
+                        <li><a href="{{ path('fos_user_security_logout') }}">Disconnect</a></li>
+
+                {% else %}
+                <h3>Connect</h3>
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{{ path('fos_user_security_login') }}">Log in</a></li>
+                    <li><a href="{{ path('eg_member_add') }}">Sign in</a></li>
+                {% endif %}
+                </ul>
+
+                <h3>Member</h3>
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{{ path('eg_member_viewall') }}">Current members</a></li>
+                    <li><a href="{{ path('eg_member_pastall') }}">Past members</a></li>
+                </ul>
+
+                <h3>Project</h3>
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{{ path('eg_project_viewall') }}">Current project</a></li>
+                    <li><a href="{{ path('eg_project_pastall') }}">Past project</a></li>
+                    {% if is_granted("ROLE_MEMBER") %}
+                        <li><a href="{{ path('eg_project_add') }}">New project</a></li>
+                    {% endif %}
+                </ul>
+
+                <h3>Publication</h3>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="{{ path('eg_publication_viewall') }}">List of publication</a></li>
+                        {% if is_granted("ROLE_MEMBER") %}
+                            <li><a href="{{ path('eg_publication_add') }}">New publication</a></li>
+                        {% endif %}
+                    </ul>
+            </div>
+
+            <div id="content" class="col-md-9">
+                {% block body %}
+
+                {% endblock %}
+            </div>
+
+        </div>
+
+        <hr>
+
+        <footer>
+            <p style="display: inline-block">Website create with Symfony in {{ 'now'|date('Y') }} by Emeric GOUBET | </p>
+            <a href="{{ path('eg_assignment_contact') }}">Contact us</a>
+        </footer>
+    </div>
+
+    {% block javascripts %}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    {% endblock %}
+
+</body>
+</html>

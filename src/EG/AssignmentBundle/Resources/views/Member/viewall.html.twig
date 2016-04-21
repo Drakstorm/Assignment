@@ -1,0 +1,46 @@
+{# src/EG/AssignmentBundle/Resources/view/Advert/view.html.twig #}
+
+{% extends "EGAssignmentBundle:Member:layout.html.twig" %}
+
+{% block title %}
+    Member List
+{% endblock %}
+
+{% block egassignment_body %}
+
+    {% if members is empty %}
+
+        <h2>No member found</h2>
+
+    {% else %}
+
+        {% for member in members %}
+
+            <div class="info" style="display: flex">
+                <a href="{{ path('eg_member_view', {'id': member.id}) }}" style="margin-right: 3%"><img src="/uploads/userImg/{{ member.id }}/{{ member.imageUrl }}" width="128px" height="128px"/></a>
+                <a href="{{ path('eg_member_view', {'id': member.id}) }}"><h2>{{ member.lastName|upper }} {{ member.firstName }}</h2></a>
+            </div>
+
+        <br/>
+
+        {% if (is_granted('ROLE_ADMIN') or app.user.id == member.id) and not member.expired %}
+        <a href="{{ path('eg_member_edit', {'id': member.id}) }}" class="btn btn-default">
+                <i class="glyphicon glyphicon-edit"></i>
+                Edit the profil
+        </a>
+        <a href="{{ path('eg_member_past', {'id': member.id}) }}" class="btn btn-danger">
+            <i class="glyphicon glyphicon-trash"></i>
+            Past the member
+        </a>
+
+        {% endif %}
+
+        <hr>
+
+        {% endfor %}
+
+    {% endif %}
+
+    </p>
+
+{% endblock %}

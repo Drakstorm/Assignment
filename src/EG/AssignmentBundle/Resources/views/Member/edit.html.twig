@@ -1,0 +1,23 @@
+{# src/EG/AssignmentBundle/Resources/views/Advert/edit.html.twig #}
+
+{% extends "EGAssignmentBundle:Member:layout.html.twig" %}
+
+{% block title %}
+    Edit information(s)
+{% endblock %}
+
+{% block egassignment_body %}
+
+    <h2>Edit information(s)</h2>
+
+    {{ include("EGAssignmentBundle:Member:form.html.twig") }}
+
+
+    <p>
+        <a href="{{ path('eg_member_view', {'id': member.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Back to the profil
+        </a>
+    </p>
+
+{% endblock %}

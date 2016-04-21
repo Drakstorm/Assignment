@@ -1,0 +1,84 @@
+<div class="well">
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {{ form_errors(form) }}
+
+    {% if form.first_name is defined %}
+
+    <div class="form-group">
+        {{ form_label(form.first_name, "First name", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.first_name) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.first_name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.last_name, "Last name", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.first_name) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.last_name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    {% endif %}
+
+    <div class="form-group">
+        {{ form_label(form.username, "Username", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.username) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.password, "Password", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.password) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.email, "Mail", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.email) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.student, "Student", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.student) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.student, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.supervisor, "Supervisor", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.supervisor) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.supervisor, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    {% if form.imgFile is defined%}
+    <div class="form-group">
+        {{ form_label(form.imgFile, "Photo", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.imgFile) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.imgFile, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    {% endif %}
+
+    {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
+    {{ form_rest(form) }}
+
+    {{ form_end(form) }}
+</div>
+
+<script src="{{ asset("/js/addUser.js") }}"></script>

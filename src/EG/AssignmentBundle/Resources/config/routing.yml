@@ -1,0 +1,111 @@
+eg_assignment_home:
+    path:      /
+    defaults:
+        _controller: EGAssignmentBundle:Assignment:index
+
+eg_assignment_dlpdf:
+    path:      /downloadPdf/{id}
+    defaults:  {_controller: EGAssignmentBundle:Assignment:downloadPdf}
+    requirements:
+        id: \d+
+
+eg_assignment_dlfile:
+    path:      /downloadFile/{id}
+    defaults:  {_controller: EGAssignmentBundle:Assignment:downloadFile}
+    requirements:
+        id: \d+
+
+eg_assignment_contact:
+    path:     /contact
+    defaults:
+            _controller: EGAssignmentBundle:Assignment:contact
+
+eg_member_add:
+    path:      /member/add
+    defaults:  { _controller: EGAssignmentBundle:Member:add }
+
+eg_member_edit:
+    path:      /member/edit/{id}
+    defaults:  { _controller: EGAssignmentBundle:Member:edit }
+    requirements:
+        id: \d+
+
+eg_member_login:
+    path:      member/login
+    defaults:  { _controller: EGAssignmentBundle:Member:login }
+
+eg_member_view:
+    path:      /member/{id}
+    defaults:  { _controller: EGAssignmentBundle:Member:view }
+    requirements:
+        id: \d+
+
+eg_member_viewall:
+    path:      /member
+    defaults:  { _controller: EGAssignmentBundle:Member:view }
+
+eg_member_past:
+    path:      /member/past/{id}
+    defaults:  { _controller: EGAssignmentBundle:Member:past }
+    requirements:
+            id: \d+
+
+eg_member_pastall:
+    path:      /member/past
+    defaults:  { _controller: EGAssignmentBundle:Member:past }
+
+eg_project_add:
+    path:      /project/add
+    defaults:  { _controller: EGAssignmentBundle:Project:add }
+
+eg_project_edit:
+    path:      /project/edit/{id}
+    defaults:  { _controller: EGAssignmentBundle:Project:edit }
+    requirements:
+        id: \d+
+
+eg_project_view:
+    path:      /project/{id}
+    defaults:  { _controller: EGAssignmentBundle:Project:view }
+    requirements:
+        id: \d+
+
+eg_project_viewall:
+    path:      /project
+    defaults:  { _controller: EGAssignmentBundle:Project:view }
+
+eg_project_past:
+    path:      /project/past/{id}
+    defaults:  { _controller: EGAssignmentBundle:Project:past }
+    requirements:
+            id: \d+
+
+eg_project_pastall:
+    path:      /project/past
+    defaults:  { _controller: EGAssignmentBundle:Project:past }
+
+eg_publication_add:
+    path:      /publication/add
+    defaults:  { _controller: EGAssignmentBundle:Publication:add }
+
+eg_publication_edit:
+    path:      /publication/edit/{id}
+    defaults:  { _controller: EGAssignmentBundle:Publication:edit }
+    requirements:
+        id: \d+
+
+eg_publication_view:
+    path:      /publication/{id}
+    defaults:  { _controller: EGAssignmentBundle:Publication:view }
+    requirements:
+        id: \d+
+
+eg_publication_viewall:
+    path:      /publication
+    defaults:  { _controller: EGAssignmentBundle:Publication:view }
+
+eg_publication_delete:
+    path:      /publication/delete/{id}
+    defaults:  { _controller: EGAssignmentBundle:Publication:delete }
+    requirements:
+        id: \d+

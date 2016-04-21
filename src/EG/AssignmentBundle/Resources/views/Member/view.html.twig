@@ -1,0 +1,87 @@
+{# src/EG/AssignmentBundle/Resources/view/Advert/view.html.twig #}
+
+{% extends "EGAssignmentBundle:Member:layout.html.twig" %}
+
+{% block title %}
+    Member Informations
+{% endblock %}
+
+{% block egassignment_body %}
+
+    <h2>{{ member.lastName|upper }} {{ member.firstName }}</h2>
+
+    <div class="well" style="width:100%;">
+
+                <img src="/uploads/userImg/{{ member.id}}/{{ member.imageUrl }}" width="auto" height="310px" style="margin-right: 5%; float: right"/>
+
+                Informations :
+                <ul>
+                    <li>Username : {{ member.username }}</li>
+                    <li>Email : {{ member.email }}</li>
+                    <li>Student :   {% if member.student %}
+                                Yes </li>
+                    <li>Supervisor : {{ member.supervisor.lastName|upper }} {{ member.supervisor.firstName }}</li>
+                                {% else %}
+                                No</li>
+                                {% endif %}
+                    <li>Admin : {% if 'ROLE_ADMIN' in member.roles %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}</li>
+
+                </ul></br>
+                Project(s) :
+                <ul>
+                    <li>Creator :</li>
+                        <ul>
+                            {% if creators is empty %}
+                                <li>No project create</li>
+                            {% else %}
+                                    {% for creator in creators %}
+                                        <li><a href="{{ path('eg_project_view', {'id': creator.id}) }}">{{ creator.name }}</a></li>
+                                    {% endfor %}
+
+                            {% endif %}
+                        </ul>
+                    <li>Member : </li>
+                        <ul>
+                            {% if projects is empty %}
+                                <li>Not member of a project</li>
+                            {% else %}
+                                {% for project in projects %}
+                                        <li><a href="{{ path('eg_project_view', {'id': project.id}) }}">{{ project.name }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                </ul></br>
+                Publication(s) :
+                <ul>
+                    {% if publications is empty %}
+                        <li>No publication submit</li>
+                    {% else %}
+                        {% for publication in publications %}
+                            <li>Project : <a href="{{ path('eg_publication_view', {'id': publication.id}) }}">{{ publication.project.name }} </a> - <a href="{{ path('eg_assignment_dlpdf', {'id': publication.id}) }}">{{ publication.pdfUrl }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+
+    </div>
+    {% if is_granted('ROLE_ADMIN') or app.user.id == member.id %}
+    <p>
+        <a href="{{ path('eg_member_edit', {'id': member.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Edit the profil
+        </a>
+        {% if is_granted('ROLE_ADMIN') and not member.expired %}
+
+            <a href="{{ path('eg_member_past', {'id': member.id}) }}" class="btn btn-danger">
+                <i class="glyphicon glyphicon-trash"></i>
+                Past the member
+            </a>
+
+        {% endif %}
+    </p>
+    {% endif %}
+
+{% endblock %}

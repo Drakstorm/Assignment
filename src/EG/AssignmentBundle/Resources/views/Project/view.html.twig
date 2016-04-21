@@ -1,0 +1,63 @@
+{# src/EG/AssignmentBundle/Resources/view/Advert/view.html.twig #}
+
+{% extends "EGAssignmentBundle:Project:layout.html.twig" %}
+
+{% block title %}
+    Project Information
+{% endblock %}
+
+{% block egassignment_body %}
+
+    <h2>{{ project.name }}</h2>
+
+    <div class="info" style="display: flex">
+
+
+        </br>
+
+        <div class="well" style="width:100%;">
+            <img src="/uploads/projectImg/{{ project.id }}/{{ project.imageUrl }}" width="auto" height="160px" style="margin-bottom: 2%; float: right"/>
+            Description : {{ project.description }} </br>
+            Creator : <a href="{{ path('eg_member_view', {'id': project.creator.id}) }}">{{ project.creator }}</a> </br>
+            Finish : {% if project.past %}
+                        Yes
+                      {% else %}
+                          No
+                      {% endif %}</br>
+            Members : </br>
+                    <ul>
+                    {% for member in project.members %}
+                        <li><a href="{{ path('eg_member_view', {'id': member.id}) }}">{{ member.username }}</a></li>
+                    {% endfor %}
+                    </ul>
+            Publication : {% if publications is empty %}
+                            No publication about this project
+                          {% else %}
+                              <ul>
+                              {% for publication in publications %}
+                                  <li>{{ publication.author }} : {{ publication.pdfUrl }} - {{ publication.date|date("m/d/Y") }} -
+                                    <a href="{{ path('eg_assignment_dlpdf', {'id': publication.id}) }}">Download</a> - If PDF not found, <a href="{{ path('eg_assignment_dlfile', {'id': publication.id}) }}">click here</a>
+                                  </li>
+                              {% endfor %}
+                              </ul>
+                          {% endif %}
+
+        </div>
+    </div>
+
+        <br/>
+
+        {% if (is_granted('ROLE_ADMIN') or app.user == project.creator) and not project.past %}
+        <p>
+            <a href="{{ path('eg_project_edit', {'id': project.id}) }}" class="btn btn-default">
+                <i class="glyphicon glyphicon-edit"></i>
+                Edit the project
+            </a>
+            <a href="{{ path('eg_project_past', {'id': project.id}) }}" class="btn btn-danger">
+                <i class="glyphicon glyphicon-trash"></i>
+                Past the project
+            </a>
+        </p>
+        {% endif %}
+
+{% endblock %}

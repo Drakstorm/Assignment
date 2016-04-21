@@ -1,0 +1,54 @@
+{# src/EG/AssignmentBundle/Resources/view/Advert/view.html.twig #}
+
+{% extends "EGAssignmentBundle:Publication:layout.html.twig" %}
+
+{% block title %}
+    Publication List
+{% endblock %}
+
+{% block egassignment_body %}
+
+    {% if publications is empty %}
+
+        <h2>No publication now</h2>
+
+    {% else %}
+
+        {% for publication in publications %}
+
+            <div class="info" style="display: flex">
+                <a href="{{ path('eg_project_view', {'id': publication.project.id}) }}" style="margin-right: 3%"><img src="/uploads/projectImg/{{ publication.project.id }}/{{ publication.project.imageUrl }}" width="128px" height="128px"/></a>
+                <div>
+                    <h2 style="display: inline-block">Project : </h2>
+
+                    <a href="{{ path('eg_project_view', {'id': publication.project.id}) }}" style="display: inline-block"><h2>{{ publication.project.name }}</h2></a>
+                    <a href="{{ path('eg_publication_view', {'id': publication.id}) }}"><h4>View the publication</h4></a>
+                    <h5>by {{ publication.author.name}}</h5>
+                </div>
+            </div>
+
+        </br>
+
+        {% if is_granted('ROLE_MEMBER') %}
+            <p>
+                <a href="{{ path('eg_publication_edit', {'id': publication.id}) }}" class="btn btn-default">
+                    <i class="glyphicon glyphicon-edit"></i>
+                    Edit the publication
+                </a>
+                <a href="{{ path('eg_publication_delete', {'id': publication.id}) }}" class="btn btn-danger">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    Delete the publication
+                </a>
+            </p>
+        {% endif %}
+
+        <hr>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    </p>
+
+{% endblock %}
